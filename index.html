@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	/*div{
+		border-radius: 
+	}*/
+	#result{
+		width: 50px;
+		height: 50px;
+		background: red;
+		position: absolute;
+		left: 30px;
+	}
+	body{
+		/*height: 1500px;*/
+	}
+	body,html{
+		width: 100%;
+		height: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+	.zimu{
+		position: absolute;
+		width: 50px;
+		height: 50px;
+		border: 1px solid #ccc;
+		text-align: center;
+		line-height: 50px;
+		font-size: 20px;
+		color: #333;
+		
+	}
+	</style>
+	<script>
+	// var source=new EventSource("demo_sse.php");
+	// source.onmessage=function(event)
+	//   {
+	//   document.getElementById("result").innerHTML+=event.data + "<br />";
+	//   };
+	// window.onload=function(){
+		// window.onblur=function(){
+		// 	console.log(11)
+		// }
+		// !function(){
+		// 	alert(2)
+		// }();
+		// 打字游戏
+		// }
+		window.onload=function(){
+			var body=document.querySelector("body");
+			var cH=document.documentElement.clientHeight;
+			var cW=document.documentElement.clientWidth;
+			var zimu={};
+			var num=4;
+			getzimu();
+			function getzimu(){
+				do{
+					var sjzm=String.fromCharCode(Math.random()*25+65);
+					if(!zimu[sjzm]){
+						zimu[sjzm]=true;
+						createzimu(body,sjzm,cH,cW);
+					}
+					var arr = Object.keys(zimu);
+				}while(arr.length<=num);
+			}
+			function createzimu(body,sjzm,cH,cw){
+				var zm=document.createElement("div");
+				zm.innerHTML=sjzm;
+				zm.className="zimu";
+				zm.id=sjzm;
+				body.appendChild(zm);
+				var sjtop=Math.random()*100;
+				var sjleft=Math.random()*cw;
+				var sjtime=Math.random()*4+6;
+				zm.style.top=-sjtop+"px";
+				zm.style.left=sjleft+"px";
+				zm.style.transition="all "+sjtime+"s linear";
+				setTimeout(function(){
+					zm.style.top=cH+200+"px";
+				},100);
+				setTimeout(function(){
+					var zmjc=document.getElementById(sjzm)
+					if(zmjc){
+						clearzm(sjzm);
+						getzimu();
+					}
+					
+				},sjtime*1000);
+			}
+			function clearzm(id){
+				document.getElementById(id).remove();
+				delete zimu[id];
+			}
+			document.onkeydown=function(e){
+				var ev=window.event||e;
+				var key=ev.key.toUpperCase();
+				var obj=document.getElementById(key);
+				console.log(obj);
+				if(obj){
+					 clearzm(key);
+					 getzimu();
+				}
+			}
+		}
+		
+		
+
+
+		
+
+		
+
+	// window.onload=function(){
+	// 	window.onscroll=function(){
+	// 		var a=document.getElementById("result");
+	// 		var top=document.body.scrollTop||document.documentElement.scrollTop;
+	// 		a.style.top=top+500+"px";
+	// 	}
+	// }
+																				
+	</script>
+</head>
+<body>
+	<div id="result"></div>
+</body>
+</html>
